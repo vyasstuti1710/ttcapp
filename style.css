@@ -25,7 +25,7 @@ body {
     margin-top: 5px;
     background-color: lightpink;
     font-size: 20px;
-
+    width: 100%;
 }
 
 .list {
@@ -35,5 +35,5 @@ body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
     padding: 10px;
-    width: 612px;
+    width: 100%;
 }
