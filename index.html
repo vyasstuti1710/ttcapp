@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link href="style.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -20,13 +20,14 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
-<body>
-    <div class="container mt-5">
-        <h2>Welcome to TTC</h2>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="mt-5 text-center container-style">
+        <h2 class="mt-2 title"> TTC Times </h2>
         <!-- Dropdown Button -->
-        <div class="dropdown">
+        <div class="dropdown mt-5">
             <label for="bnum"> Bus# : &nbsp; &nbsp;</label>
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownBusButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -42,14 +43,18 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Select your Stop
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownStopMenu">
+            <div class="dropdown-menu mt-5" aria-labelledby="dropdownMenuButton" id="dropdownStopMenu">
                 <!-- Dynamic dropdown items will be added here by JavaScript -->
             </div>
         </div> <br> <br>
-        <label for="time"> Time (mins) : &nbsp;</label>
-        <label for="timevalue" id="lblTime"> </label>
+        <label>
+            <ul id="lblTime" class="ul-time"></ul>
+        </label>
+        <!-- Create a static unordered list-->
+
     </div>
     <!-- Bootstrap and jQuery JS -->
+
     <script>
 
         //Create Bus Dropdown-
@@ -101,16 +106,23 @@
             }
             stopDropdown(bus, stops);
         }
+
         //Create Time Dropdown-
         function showTime(timesResult) {
+            const lblTime = document.getElementById("lblTime")            // Creating a variable to show the 'Time' 
             const times = timesResult.predictions.direction.prediction;
-            let mins = "";
-            for (let time of times) {
-                const lblTime = document.getElementById("lblTime")  // creating a variable to show the 'Time' 
-                mins = mins + " " + time.minutes + ",";
+            while (lblTime.firstChild) {
+                lblTime.removeChild(lblTime.firstChild);
             }
-            lblTime.textContent = mins;
+            for (let time of times) {
+                const listItem = document.createElement('li');        // Loop throught the bus times & create list items
+                const mins = time.minutes + " minutes";
+                listItem.textContent = mins;
+                lblTime.appendChild(listItem);
+                listItem.classList.add('list');
+            }
         }
+
         //when 'Stop' is selected
         async function onStopSelected(stop, tag) {
             const dropdownStopSelected = document.getElementById("dropdownStopSelected"); // creating a variable to show the selected Bus option
@@ -119,6 +131,7 @@
             const times = await res.json();// the 'times' here is only valid for the this function- scop eis limited for this function
             showTime(times);
         }
+
     </script>
 </body>
 
